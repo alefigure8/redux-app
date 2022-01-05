@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react'
-import axios from 'axios'
 import {useParams} from 'react-router-dom'
-import {slectedProduct} from '../features/actions/productsActions'
+import {fetchProduct} from '../features/actions/productsActions'
 import { useDispatch, useSelector } from 'react-redux'
 
 const ProductDetails = () => {
@@ -10,14 +9,8 @@ const ProductDetails = () => {
     const product = useSelector(state => state.product)
     const {image, title, price, category, description, } = product
 
-    const fetchProduct = async () => {
-        const url = `https://fakestoreapi.com/products/${productId}`
-        const response = await axios(url).catch(err => concosle.log(err))
-        dispatch(slectedProduct(response.data))
-    }
-
     useEffect(()=>{
-        productId && productId !== '' && fetchProduct()
+        productId && productId !== '' && dispatch(fetchProduct(productId))
     }, [productId])
 
     return (
